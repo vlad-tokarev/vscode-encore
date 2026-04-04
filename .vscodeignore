@@ -1,0 +1,17 @@
+.git/**
+.github/**
+.vscode/**
+src/**
+docs/**
+encore-example/**
+node_modules/**
+out/**/*.map
+tsconfig.json
+CLAUDE.md
+CONTRIBUTING.md
+RELEASING.md
+.gitignore
+vscode-encore-*.vsix
+encore-*.vsix
+**/*.ts
+!out/**/*.js

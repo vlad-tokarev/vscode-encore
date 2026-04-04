@@ -1,0 +1,376 @@
+{
+  "name": "encore",
+  "displayName": "Encore",
+  "description": "Productive VS Code tooling for Encore Go applications: navigation, explorer, run and debug, tests, and cloud-aware helpers.",
+  "version": "0.1.0",
+  "publisher": "vlad-tokarev",
+  "license": "Unlicense",
+  "icon": "resources/encore-icon.png",
+  "pricing": "Free",
+  "homepage": "https://github.com/vlad-tokarev/vscode-encore#readme",
+  "bugs": {
+    "url": "https://github.com/vlad-tokarev/vscode-encore/issues"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/vlad-tokarev/vscode-encore"
+  },
+  "sponsor": {
+    "url": "https://buymeacoffee.com/vtok"
+  },
+  "markdown": "github",
+  "galleryBanner": {
+    "color": "#1a1a2e",
+    "theme": "dark"
+  },
+  "engines": {
+    "vscode": "^1.80.0"
+  },
+  "categories": [
+    "Programming Languages",
+    "Other"
+  ],
+  "keywords": [
+    "encore",
+    "encore.dev",
+    "go",
+    "golang",
+    "microservices",
+    "backend"
+  ],
+  "activationEvents": [
+    "workspaceContains:**/encore.app",
+    "onView:encoreExplorer"
+  ],
+  "main": "./out/extension.js",
+  "contributes": {
+    "configurationDefaults": {
+      "files.associations": {
+        "encore.app": "jsonc"
+      }
+    },
+    "jsonValidation": [
+      {
+        "fileMatch": "encore.app",
+        "url": "./schemas/encore-app.json"
+      }
+    ],
+    "views": {
+      "encore-explorer": [
+        {
+          "id": "encoreExplorer",
+          "name": "Encore"
+        }
+      ]
+    },
+    "viewsWelcome": [
+      {
+        "view": "encoreExplorer",
+        "contents": "Encore Explorer did not find any `encore.app` files in the current project yet.\n\nEncore Explorer keeps scanning the project and updates automatically when an `encore.app` file appears.",
+        "when": "!encore.isEncoreWorkspace"
+      }
+    ],
+    "viewsContainers": {
+      "activitybar": [
+        {
+          "id": "encore-explorer",
+          "title": "Encore",
+          "icon": "resources/encore-icon.svg"
+        }
+      ]
+    },
+    "commands": [
+      {
+        "command": "encore.refreshExplorer",
+        "title": "Refresh",
+        "icon": "$(refresh)",
+        "category": "Encore"
+      },
+      {
+        "command": "encore.goToSource",
+        "title": "Go to Source",
+        "icon": "$(go-to-file)",
+        "category": "Encore"
+      },
+      {
+        "command": "encore.copyDbConnUri",
+        "title": "Copy Connection URI",
+        "icon": "$(copy)",
+        "category": "Encore"
+      },
+      {
+        "command": "encore.startDaemon",
+        "title": "Start Daemon",
+        "icon": "$(debug-start)",
+        "category": "Encore"
+      },
+      {
+        "command": "encore.killDaemon",
+        "title": "Kill Daemon",
+        "icon": "$(debug-stop)",
+        "category": "Encore"
+      },
+      {
+        "command": "encore.runTest",
+        "title": "Run Test",
+        "icon": "$(play)",
+        "category": "Encore"
+      },
+      {
+        "command": "encore.debugTest",
+        "title": "Debug Test",
+        "icon": "$(debug-alt)",
+        "category": "Encore"
+      },
+      {
+        "command": "encore.runApp",
+        "title": "Run Application",
+        "icon": "$(play)",
+        "category": "Encore"
+      },
+      {
+        "command": "encore.debugApp",
+        "title": "Debug Application",
+        "icon": "$(debug-alt)",
+        "category": "Encore"
+      },
+      {
+        "command": "encore.stopApp",
+        "title": "Stop Application",
+        "icon": "$(debug-stop)",
+        "category": "Encore"
+      },
+      {
+        "command": "encore.restartApp",
+        "title": "Restart Application",
+        "icon": "$(debug-restart)",
+        "category": "Encore"
+      },
+      {
+        "command": "encore.showAppOutput",
+        "title": "Show Application Output",
+        "icon": "$(output)",
+        "category": "Encore"
+      },
+      {
+        "command": "encore.openAppUrl",
+        "title": "Open URL",
+        "icon": "$(globe)",
+        "category": "Encore"
+      },
+      {
+        "command": "encore.showMigrations",
+        "title": "Show Migrations",
+        "icon": "$(folder-opened)",
+        "category": "Encore"
+      },
+      {
+        "command": "encore.openEndpointInConsole",
+        "title": "Open Endpoint in Console",
+        "icon": "$(link-external)",
+        "category": "Encore"
+      }
+    ],
+    "menus": {
+      "view/title": [
+        {
+          "command": "encore.refreshExplorer",
+          "when": "view == encoreExplorer",
+          "group": "navigation"
+        }
+      ],
+      "view/item/context": [
+        {
+          "command": "encore.startDaemon",
+          "when": "viewItem == daemonStopped",
+          "group": "inline"
+        },
+        {
+          "command": "encore.killDaemon",
+          "when": "viewItem == daemonRunning",
+          "group": "inline"
+        },
+        {
+          "command": "encore.goToSource",
+          "when": "viewItem == service",
+          "group": "inline"
+        },
+        {
+          "command": "encore.goToSource",
+          "when": "viewItem == cacheCluster",
+          "group": "inline"
+        },
+        {
+          "command": "encore.goToSource",
+          "when": "viewItem == pubsubTopic",
+          "group": "inline"
+        },
+        {
+          "command": "encore.goToSource",
+          "when": "viewItem == bucket",
+          "group": "inline"
+        },
+        {
+          "command": "encore.goToSource",
+          "when": "viewItem == cronJob",
+          "group": "inline"
+        },
+        {
+          "command": "encore.copyDbConnUri",
+          "when": "viewItem =~ /^databaseWithConn/",
+          "group": "inline@1"
+        },
+        {
+          "command": "encore.showMigrations",
+          "when": "viewItem =~ /Migrations$/",
+          "group": "inline@2"
+        },
+        {
+          "command": "encore.goToSource",
+          "when": "viewItem == service",
+          "group": "navigation"
+        },
+        {
+          "command": "encore.goToSource",
+          "when": "viewItem == endpoint",
+          "group": "navigation"
+        },
+        {
+          "command": "encore.goToSource",
+          "when": "viewItem == cacheCluster",
+          "group": "navigation"
+        },
+        {
+          "command": "encore.goToSource",
+          "when": "viewItem == keyspace",
+          "group": "navigation"
+        },
+        {
+          "command": "encore.goToSource",
+          "when": "viewItem =~ /^databaseWithConn/",
+          "group": "navigation"
+        },
+        {
+          "command": "encore.goToSource",
+          "when": "viewItem == pubsubTopic",
+          "group": "navigation"
+        },
+        {
+          "command": "encore.goToSource",
+          "when": "viewItem == pubsubSubscription",
+          "group": "navigation"
+        },
+        {
+          "command": "encore.goToSource",
+          "when": "viewItem == bucket",
+          "group": "navigation"
+        },
+        {
+          "command": "encore.goToSource",
+          "when": "viewItem == cronJob",
+          "group": "navigation"
+        },
+        {
+          "command": "encore.copyDbConnUri",
+          "when": "viewItem =~ /^databaseWithConn/",
+          "group": "navigation"
+        },
+        {
+          "command": "encore.showMigrations",
+          "when": "viewItem =~ /Migrations$/",
+          "group": "navigation"
+        },
+        {
+          "command": "encore.runApp",
+          "when": "viewItem == appRunStopped",
+          "group": "inline@1"
+        },
+        {
+          "command": "encore.debugApp",
+          "when": "viewItem == appRunStopped",
+          "group": "inline@2"
+        },
+        {
+          "command": "encore.stopApp",
+          "when": "viewItem == appRunRunning || viewItem == appRunDebugging",
+          "group": "inline@1"
+        },
+        {
+          "command": "encore.restartApp",
+          "when": "viewItem == appRunRunning",
+          "group": "inline@2"
+        },
+        {
+          "command": "encore.showAppOutput",
+          "when": "viewItem == appRunRunning || viewItem == appRunDebugging",
+          "group": "inline@3"
+        }
+      ],
+      "commandPalette": [
+        {
+          "command": "encore.openAppUrl",
+          "when": "false"
+        },
+        {
+          "command": "encore.runTest",
+          "when": "false"
+        },
+        {
+          "command": "encore.debugTest",
+          "when": "false"
+        },
+        {
+          "command": "encore.refreshExplorer",
+          "when": "false"
+        }
+      ]
+    },
+    "configuration": {
+      "title": "Encore",
+      "properties": {
+        "encore.cliPath": {
+          "type": "string",
+          "default": "",
+          "description": "Absolute path to the Encore CLI binary. Leave empty to find `encore` on PATH automatically."
+        },
+        "encore.enabled": {
+          "type": "boolean",
+          "default": true,
+          "description": "Enable the Encore extension."
+        },
+        "encore.run.port": {
+          "type": "number",
+          "default": 4000,
+          "description": "Port for the Encore development server."
+        },
+        "encore.run.watch": {
+          "type": "boolean",
+          "default": true,
+          "description": "Enable watch mode for automatic reloading on file changes."
+        },
+        "encore.run.logLevel": {
+          "type": "string",
+          "enum": ["", "trace", "debug", "info", "warn", "error"],
+          "default": "",
+          "description": "Minimum log level to display (empty for default)."
+        },
+        "encore.debug.stopOnEntry": {
+          "type": "boolean",
+          "default": false,
+          "description": "Pause the application on start when debugging. When false, the application runs immediately with breakpoints active."
+        }
+      }
+    }
+  },
+  "scripts": {
+    "vscode:prepublish": "npm run compile",
+    "compile": "tsc -p ./",
+    "watch": "tsc -watch -p ./",
+    "lint": "eslint src --ext ts"
+  },
+  "devDependencies": {
+    "@types/node": "^20.11.0",
+    "@types/vscode": "^1.80.0",
+    "typescript": "^5.3.0"
+  }
+}

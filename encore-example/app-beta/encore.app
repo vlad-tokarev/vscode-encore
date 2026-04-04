@@ -1,0 +1,3 @@
+{
+  "id": "encore-example-beta"
+}
