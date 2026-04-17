@@ -1,0 +1,88 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "title": "Encore Application Configuration",
+  "description": "Schema for the encore.app configuration file used by the Encore framework.",
+  "type": "object",
+  "properties": {
+    "id": {
+      "type": "string",
+      "description": "The unique application identifier used for deployment."
+    },
+    "global_cors": {
+      "type": "object",
+      "description": "Global CORS (Cross-Origin Resource Sharing) policy configuration.",
+      "properties": {
+        "debug": {
+          "type": "boolean",
+          "description": "Enable CORS debug logging.",
+          "default": false
+        },
+        "allow_headers": {
+          "type": "array",
+          "description": "Additional headers that clients are allowed to send. Encore automatically includes headers used in request/response types.",
+          "items": {
+            "type": "string"
+          }
+        },
+        "expose_headers": {
+          "type": "array",
+          "description": "Additional headers exposed to browser scripts beyond the CORS-safelisted response headers.",
+          "items": {
+            "type": "string"
+          }
+        },
+        "allow_origins_without_credentials": {
+          "type": "array",
+          "description": "Allowed origins for requests that do not include credentials (cookies, HTTP authentication, client-side TLS certificates). Defaults to [\"*\"] when not specified.",
+          "items": {
+            "type": "string"
+          }
+        },
+        "allow_origins_with_credentials": {
+          "type": "array",
+          "description": "Allowed origins for requests that include credentials. Supports wildcard subdomains (e.g. \"https://*.example.com\"). No default — must be explicitly configured.",
+          "items": {
+            "type": "string"
+          }
+        }
+      },
+      "additionalProperties": false
+    },
+    "build": {
+      "type": "object",
+      "description": "Build configuration for deployment.",
+      "properties": {
+        "docker": {
+          "type": "object",
+          "description": "Docker image build settings.",
+          "properties": {
+            "bundle_source": {
+              "type": "boolean",
+              "description": "Whether to include source code in the Docker image.",
+              "default": false
+            },
+            "base": {
+              "type": "string",
+              "description": "Base Docker image. Defaults to \"scratch\" for Go applications and \"node:slim\" for TypeScript applications."
+            },
+            "workdir": {
+              "type": "string",
+              "description": "Working directory inside the Docker container. Defaults to \"/workspace\" for bundled source or \"/\" otherwise."
+            }
+          },
+          "additionalProperties": false
+        }
+      },
+      "additionalProperties": false
+    },
+    "experiments": {
+      "type": "array",
+      "description": "Experimental/preview features to enable.",
+      "items": {
+        "type": "string"
+      }
+    }
+  },
+  "required": ["id"],
+  "additionalProperties": false
+}

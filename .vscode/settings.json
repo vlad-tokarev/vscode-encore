@@ -1,0 +1,7 @@
+{
+    "go.enableCodeLens": {
+        "runtest": false,
+        "debugtest": false,
+        "benchmarks": false
+    }
+}
